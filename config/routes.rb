@@ -11,9 +11,9 @@ Rails.application.routes.draw do
 
   resources :share_indices
 
-  resources :stock_quotes
-
-  resources :securities
+  resources :securities do
+    resources :stock_quotes
+  end
 
   root :to => "securities#index"
   # The priority is based upon order of creation: first created -> highest priority.
