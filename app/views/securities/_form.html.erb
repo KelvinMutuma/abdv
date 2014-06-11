@@ -1,0 +1,29 @@
+<%= form_for(@security) do |f| %>
+  <% if @security.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@security.errors.count, "error") %> prohibited this security from being saved:</h2>
+
+      <ul>
+      <% @security.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :security %><br>
+    <%= f.text_field :security %>
+  </div>
+  <div class="field">
+    <%= f.label :security_code %><br>
+    <%= f.text_field :security_code %>
+  </div>
+  <div class="field">
+    <%= f.label :category %><br>
+    <%= f.text_field :category %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

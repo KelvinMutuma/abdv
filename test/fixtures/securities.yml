@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  security: MyString
+  security_code: MyString
+  category: MyString
+
+two:
+  security: MyString
+  security_code: MyString
+  category: MyString

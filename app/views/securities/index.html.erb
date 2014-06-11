@@ -1,0 +1,29 @@
+<h1>Listing securities</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Security</th>
+      <th>Security code</th>
+      <th>Category</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @securities.each do |security| %>
+      <tr>
+        <td><%= security.security %></td>
+        <td><%= security.security_code %></td>
+        <td><%= security.category %></td>
+        <td><%= link_to 'Show', security %></td>
+        <td><%= link_to 'Edit', edit_security_path(security) %></td>
+        <td><%= link_to 'Destroy', security, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Security', new_security_path %>
