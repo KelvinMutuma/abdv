@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Security:</strong>
+  <%= @changer.security %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @changer.price %>
+</p>
+
+<p>
+  <strong>Percentage change:</strong>
+  <%= @changer.percentage_change %>
+</p>
+
+<%= link_to 'Edit', edit_changer_path(@changer) %> |
+<%= link_to 'Back', changers_path %>

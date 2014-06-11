@@ -1,0 +1,33 @@
+<h1>Listing banks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Volume</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>War</th>
+      <th>Window borrowing</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @banks.each do |bank| %>
+      <tr>
+        <td><%= bank.volume %></td>
+        <td><%= bank.high %></td>
+        <td><%= bank.low %></td>
+        <td><%= bank.war %></td>
+        <td><%= bank.window_borrowing %></td>
+        <td><%= link_to 'Show', bank %></td>
+        <td><%= link_to 'Edit', edit_bank_path(bank) %></td>
+        <td><%= link_to 'Destroy', bank, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Bank', new_bank_path %>

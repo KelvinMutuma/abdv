@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Volume:</strong>
+  <%= @bank.volume %>
+</p>
+
+<p>
+  <strong>High:</strong>
+  <%= @bank.high %>
+</p>
+
+<p>
+  <strong>Low:</strong>
+  <%= @bank.low %>
+</p>
+
+<p>
+  <strong>War:</strong>
+  <%= @bank.war %>
+</p>
+
+<p>
+  <strong>Window borrowing:</strong>
+  <%= @bank.window_borrowing %>
+</p>
+
+<%= link_to 'Edit', edit_bank_path(@bank) %> |
+<%= link_to 'Back', banks_path %>

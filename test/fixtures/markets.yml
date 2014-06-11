@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  equity_turnover: 1.5
+  market_capitalization: 1.5
+
+two:
+  equity_turnover: 1.5
+  market_capitalization: 1.5

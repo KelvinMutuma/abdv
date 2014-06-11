@@ -1,0 +1,27 @@
+<h1>Listing movers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mover</th>
+      <th>Volume</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @movers.each do |mover| %>
+      <tr>
+        <td><%= mover.mover %></td>
+        <td><%= mover.volume %></td>
+        <td><%= link_to 'Show', mover %></td>
+        <td><%= link_to 'Edit', edit_mover_path(mover) %></td>
+        <td><%= link_to 'Destroy', mover, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Mover', new_mover_path %>

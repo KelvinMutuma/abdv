@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Equity turnover:</strong>
+  <%= @market.equity_turnover %>
+</p>
+
+<p>
+  <strong>Market capitalization:</strong>
+  <%= @market.market_capitalization %>
+</p>
+
+<%= link_to 'Edit', edit_market_path(@market) %> |
+<%= link_to 'Back', markets_path %>

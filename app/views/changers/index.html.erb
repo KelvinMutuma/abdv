@@ -1,0 +1,29 @@
+<h1>Listing changers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Security</th>
+      <th>Price</th>
+      <th>Percentage change</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @changers.each do |changer| %>
+      <tr>
+        <td><%= changer.security %></td>
+        <td><%= changer.price %></td>
+        <td><%= changer.percentage_change %></td>
+        <td><%= link_to 'Show', changer %></td>
+        <td><%= link_to 'Edit', edit_changer_path(changer) %></td>
+        <td><%= link_to 'Destroy', changer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Changer', new_changer_path %>

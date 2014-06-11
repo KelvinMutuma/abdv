@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Currency:</strong>
+  <%= @forex.currency %>
+</p>
+
+<p>
+  <strong>Buy:</strong>
+  <%= @forex.buy %>
+</p>
+
+<p>
+  <strong>Sell:</strong>
+  <%= @forex.sell %>
+</p>
+
+<p>
+  <strong>Mean:</strong>
+  <%= @forex.mean %>
+</p>
+
+<%= link_to 'Edit', edit_forex_path(@forex) %> |
+<%= link_to 'Back', forexes_path %>

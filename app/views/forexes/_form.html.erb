@@ -1,0 +1,33 @@
+<%= form_for(@forex) do |f| %>
+  <% if @forex.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@forex.errors.count, "error") %> prohibited this forex from being saved:</h2>
+
+      <ul>
+      <% @forex.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :currency %><br>
+    <%= f.text_field :currency %>
+  </div>
+  <div class="field">
+    <%= f.label :buy %><br>
+    <%= f.text_field :buy %>
+  </div>
+  <div class="field">
+    <%= f.label :sell %><br>
+    <%= f.text_field :sell %>
+  </div>
+  <div class="field">
+    <%= f.label :mean %><br>
+    <%= f.text_field :mean %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

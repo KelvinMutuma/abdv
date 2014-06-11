@@ -1,0 +1,31 @@
+<h1>Listing forexes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Currency</th>
+      <th>Buy</th>
+      <th>Sell</th>
+      <th>Mean</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @forexes.each do |forex| %>
+      <tr>
+        <td><%= forex.currency %></td>
+        <td><%= forex.buy %></td>
+        <td><%= forex.sell %></td>
+        <td><%= forex.mean %></td>
+        <td><%= link_to 'Show', forex %></td>
+        <td><%= link_to 'Edit', edit_forex_path(forex) %></td>
+        <td><%= link_to 'Destroy', forex, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Forex', new_forex_path %>

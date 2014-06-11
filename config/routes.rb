@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
+  resources :forexes
+
+  resources :banks
+
+  resources :markets
+
+  resources :changers
+
+  resources :movers
+
+  resources :share_indices
+
+  resources :stock_quotes
+
   resources :securities
 
   root :to => "securities#index"

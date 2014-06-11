@@ -1,0 +1,25 @@
+<%= form_for(@share_index) do |f| %>
+  <% if @share_index.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@share_index.errors.count, "error") %> prohibited this share_index from being saved:</h2>
+
+      <ul>
+      <% @share_index.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :all_share_index %><br>
+    <%= f.text_field :all_share_index %>
+  </div>
+  <div class="field">
+    <%= f.label :twenty_share_index %><br>
+    <%= f.text_field :twenty_share_index %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

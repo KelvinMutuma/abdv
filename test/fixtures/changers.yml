@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  security: MyString
+  price: 1.5
+  percentage_change: 1.5
+
+two:
+  security: MyString
+  price: 1.5
+  percentage_change: 1.5

@@ -1,0 +1,21 @@
+<%= form_for(@stock_quote) do |f| %>
+  <% if @stock_quote.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@stock_quote.errors.count, "error") %> prohibited this stock_quote from being saved:</h2>
+
+      <ul>
+      <% @stock_quote.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :security_id %><br>
+    <%= f.text_field :security_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

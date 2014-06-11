@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  currency: MyString
+  buy: 1.5
+  sell: 1.5
+  mean: 1.5
+
+two:
+  currency: MyString
+  buy: 1.5
+  sell: 1.5
+  mean: 1.5

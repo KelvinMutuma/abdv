@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  volume: 1
+  high: 1.5
+  low: 1.5
+  war: 1.5
+  window_borrowing: 1
+
+two:
+  volume: 1
+  high: 1.5
+  low: 1.5
+  war: 1.5
+  window_borrowing: 1

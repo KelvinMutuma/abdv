@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>All share index:</strong>
+  <%= @share_index.all_share_index %>
+</p>
+
+<p>
+  <strong>Twenty share index:</strong>
+  <%= @share_index.twenty_share_index %>
+</p>
+
+<%= link_to 'Edit', edit_share_index_path(@share_index) %> |
+<%= link_to 'Back', share_indices_path %>

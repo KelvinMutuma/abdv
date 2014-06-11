@@ -1,0 +1,2 @@
+module ShareIndicesHelper
+end

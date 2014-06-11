@@ -1,0 +1,29 @@
+<%= form_for(@changer) do |f| %>
+  <% if @changer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@changer.errors.count, "error") %> prohibited this changer from being saved:</h2>
+
+      <ul>
+      <% @changer.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :security %><br>
+    <%= f.text_field :security %>
+  </div>
+  <div class="field">
+    <%= f.label :price %><br>
+    <%= f.text_field :price %>
+  </div>
+  <div class="field">
+    <%= f.label :percentage_change %><br>
+    <%= f.text_field :percentage_change %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
