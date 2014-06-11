@@ -3,10 +3,15 @@
 # Supports bulk-adding hosts to roles, the primary server in each group
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
+set :stage, :production
+set :branch, "master"
+set :deploy_user, "abacusdevuser"
 
-role :app, %w{deploy@example.com}
-role :web, %w{deploy@example.com}
-role :db,  %w{deploy@example.com}
+set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
+
+# role :app, %w{abacusdevuser@abacusdev.cloudapp.net}
+# role :web, %w{abacusdevuser@abacusdev.cloudapp.net}
+# role :db,  %w{abacusdevuser@abacusdev.cloudapp.net}
 
 
 # Extended Server Syntax
@@ -15,9 +20,9 @@ role :db,  %w{deploy@example.com}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'example.com', user: 'deploy', roles: %w{web app}, my_property: :my_value
-
-
+server 'abacusdev.cloudapp.net', user: 'abacusdevuser', roles: %w{web app db}, primary: true
+set :deploy_to, "/home/#{fetch(:deploy_user)}/apps/#{fetch(:full_app_name)}"
+set :rails_env, :production
 # Custom SSH Options
 # ==================
 # You may pass any option but keep in mind that net/ssh understands a
