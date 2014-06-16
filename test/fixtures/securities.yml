@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: securities
+#
+#  id            :integer          not null, primary key
+#  security      :string(255)
+#  security_code :string(255)
+#  category      :string(255)
+#  created_at    :datetime
+#  updated_at    :datetime
+#
+
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:

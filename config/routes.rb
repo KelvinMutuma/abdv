@@ -1,18 +1,32 @@
 Rails.application.routes.draw do
-  resources :forexes
+  resources :forexes do
+    collection { post :update_from_feed_continuously}
+  end
 
-  resources :banks
+  resources :banks do
+    collection { post :update_from_feed_continuously}
+  end
 
-  resources :markets
+  resources :markets do
+    collection { post :update_from_feed_continuously}
+  end
 
-  resources :changers
+  resources :changers do
+    collection { post :update_from_feed_continuously}
+  end
 
-  resources :movers
+  resources :movers do
+    collection { post :update_from_feed_continuously}
+  end
 
-  resources :share_indices
+  resources :share_indices do
+    collection { post :update_from_feed_continuously}
+  end
 
   resources :securities do
-    resources :stock_quotes
+    resources :stock_quotes do
+      collection { post :update_from_feed_continuously}
+    end
   end
 
   root :to => "securities#index"
