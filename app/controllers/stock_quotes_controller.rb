@@ -1,10 +1,12 @@
 class StockQuotesController < ApplicationController
   before_action :set_stock_quote, only: [:show, :edit, :update, :destroy]
 
+  before_filter :get_security
+
   # GET /stock_quotes
   # GET /stock_quotes.json
   def index
-    @stock_quotes = StockQuote.all
+    @stock_quotes = @security.stock_quotes
   end
 
   def update_from_feed 
@@ -30,11 +32,11 @@ class StockQuotesController < ApplicationController
   # POST /stock_quotes
   # POST /stock_quotes.json
   def create
-    @stock_quote = StockQuote.new(stock_quote_params)
+    @stock_quote = @security.stock_quotes.new(stock_quote_params)
 
     respond_to do |format|
       if @stock_quote.save
-        format.html { redirect_to @stock_quote, notice: 'Stock quote was successfully created.' }
+        format.html { redirect_to [@security, @stock_quote], notice: 'Stock quote was successfully created.' }
         format.json { render :show, status: :created, location: @stock_quote }
       else
         format.html { render :new }
@@ -48,7 +50,7 @@ class StockQuotesController < ApplicationController
   def update
     respond_to do |format|
       if @stock_quote.update(stock_quote_params)
-        format.html { redirect_to @stock_quote, notice: 'Stock quote was successfully updated.' }
+        format.html { redirect_to [@security, @stock_quote], notice: 'Stock quote was successfully updated.' }
         format.json { render :show, status: :ok, location: @stock_quote }
       else
         format.html { render :edit }
@@ -65,6 +67,10 @@ class StockQuotesController < ApplicationController
       format.html { redirect_to stock_quotes_url, notice: 'Stock quote was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def get_security
+    @security = Security.find(params[:id])
   end
 
   private

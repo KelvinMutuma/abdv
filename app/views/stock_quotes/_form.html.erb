@@ -1,4 +1,4 @@
-<%= form_for(@stock_quote) do |f| %>
+<%= form_for([@security, @stock_quote]) do |f| %>
   <% if @stock_quote.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@stock_quote.errors.count, "error") %> prohibited this stock_quote from being saved:</h2>

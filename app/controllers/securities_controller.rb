@@ -4,7 +4,7 @@ class SecuritiesController < ApplicationController
   # GET /securities
   # GET /securities.json
   def index
-    @securities = Security.all
+    @securities = Security.includes(:stock_quote).all
   end
 
   # GET /securities/1
