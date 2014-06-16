@@ -25,7 +25,7 @@ Rails.application.routes.draw do
 
   resources :securities do
     resources :stock_quotes do
-      collection { post :update_from_feed_continuously}
+      collection { post :update_from_feed }
     end
   end
 

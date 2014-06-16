@@ -22,4 +22,11 @@
 
 <br>
 
-<%= link_to 'New Stock quote', new_stock_quote_path %>
+<%= link_to 'New Stock quote', new_security_stock_quote_path %>
+
+
+<%= form_tag update_from_feed_security_stock_quotes_path do %>
+  <%= label_tag(:feed_url, "Feed Url") %>
+  <%= text_field_tag(:feed_url) %>
+  <%= submit_tag("Submit") %>
+<% end %>

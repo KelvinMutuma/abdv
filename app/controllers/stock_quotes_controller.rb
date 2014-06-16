@@ -7,6 +7,12 @@ class StockQuotesController < ApplicationController
     @stock_quotes = StockQuote.all
   end
 
+  def update_from_feed 
+    # call_rake :update_stock_quotes, :feed_url => params[:feed_url]
+    system "rake update_stock_quotes FEED_URL=#{params[:feed_url]} &"
+    flash[:notice] = "Updating quotes"
+    redirect_to root_url
+  end
   # GET /stock_quotes/1
   # GET /stock_quotes/1.json
   def show
