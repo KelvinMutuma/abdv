@@ -11,10 +11,10 @@
   <tbody>
     <% @stock_quotes.each do |stock_quote| %>
       <tr>
-        <td><%= stock_quote.security %></td>
-        <td><%= link_to 'Show', stock_quote %></td>
-        <td><%= link_to 'Edit', edit_stock_quote_path(stock_quote) %></td>
-        <td><%= link_to 'Destroy', stock_quote, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= stock_quote.security.security %></td>
+        <td><%= link_to 'Show',[@security, stock_quote] %></td>
+        <td><%= link_to 'Edit', edit_security_stock_quote_path(@security, stock_quote) %></td>
+        <td><%= link_to 'Destroy', [@security, stock_quote], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -22,7 +22,7 @@
 
 <br>
 
-<%= link_to 'New Stock quote', new_security_stock_quote_path %>
+<%= link_to 'New Stock quote', new_security_stock_quote_path(@security) %>
 
 
 <%= form_tag update_from_feed_security_stock_quotes_path do %>
