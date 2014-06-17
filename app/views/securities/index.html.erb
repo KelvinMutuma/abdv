@@ -6,6 +6,11 @@
       <th>Security</th>
       <th>Security code</th>
       <th>Category</th>
+      <th>Current Price</th>
+      <th>Previous Price</th>
+      <th>Percentage Change</th>
+      <th>High</th>
+      <th>Low</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,6 +21,11 @@
         <td><%= security.security %></td>
         <td><%= security.security_code %></td>
         <td><%= security.category %></td>
+        <td><%= security.stock_quotes.last.current%></td>
+        <td><%= security.stock_quotes.last.yesterday %></td>
+        <td><%= security.stock_quotes.last.percentage_change%></td>
+        <td><%= security.stock_quotes.last.high %>
+        <td><%= security.stock_quotes.last.low %>
         <td><%= link_to 'Show', security %></td>
         <td><%= link_to 'Edit', edit_security_path(security) %></td>
         <td><%= link_to 'Destroy', security, method: :delete, data: { confirm: 'Are you sure?' } %></td>
