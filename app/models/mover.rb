@@ -15,8 +15,7 @@ class Mover < ActiveRecord::Base
 	feed_url = "https://spreadsheets.google.com/feeds/list/1hb9O9MulweXASHaRzYbIOpRpkT7Mksx5xayfsUtv_8g/od6/public/values"
 
 	def self.update_from_feed(feed_url,delay_interval=2.minutes)
-	  	if feed_url == "https://spreadsheets.google.com/feeds/list/1ncyK8uXoeLobVkdiSKQcYJr2joK_uN5QSBB3814GKaw/od6/public/values"
-        feed = Feedjira::Feed.fetch_and_parse(feed_url)
+	  	  feed = Feedjira::Feed.fetch_and_parse(feed_url)
   	  	unless feed.is_a?(Fixnum)
   	      add_entries(feed.entries)
   	    else
@@ -28,9 +27,6 @@ class Mover < ActiveRecord::Base
   	  		feed = Feedjira::Feed.update(feed_url)
   	  		add_entries(feed.new_entries) if feed.updated?
   	  	end
-      else
-        puts ".++++++++++++++..........................................."
-      end
 	end
 
   private

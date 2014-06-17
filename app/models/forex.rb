@@ -17,7 +17,6 @@ class Forex < ActiveRecord::Base
     feed_url = "https://spreadsheets.google.com/feeds/list/1KsgFX_MtJLqDcOs8fcV4HLZ_gAKlU0NMQviEAl5Ar4M/od6/public/values"
 
 	def self.update_from_feed(feed_url,delay_interval=2.minutes)
-	  	if feed_url == "https://spreadsheets.google.com/feeds/list/1KsgFX_MtJLqDcOs8fcV4HLZ_gAKlU0NMQviEAl5Ar4M/od6/public/values"
         feed = Feedjira::Feed.fetch_and_parse(feed_url)
   	  	unless feed.is_a?(Fixnum)
   	      add_entries(feed.entries)
@@ -30,9 +29,6 @@ class Forex < ActiveRecord::Base
   	  		feed = Feedjira::Feed.update(feed_url)
   	  		add_entries(feed.new_entries) if feed.updated?
   	  	end
-      else
-        puts ".++++++++++++++..........................................."
-      end
 	end
 
   private
