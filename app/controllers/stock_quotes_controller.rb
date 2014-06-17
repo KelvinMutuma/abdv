@@ -7,12 +7,14 @@ class StockQuotesController < ApplicationController
   # GET /stock_quotes.json
   def index
     @stock_quotes = @security.stock_quotes
+    @share_indices = ShareIndex.all
+    @markets = Market.all
   end
 
   def update_from_feed 
     call_rake :update_stock_quotes, :feed_url => params[:feed_url]
     # system "rake update_stock_quotes FEED_URL=#{params[:feed_url]} &"
-    flash[:notice] = "Updating quotes"
+    flash[:notice] = "Updating Movers"
     redirect_to root_url
   end
   # GET /stock_quotes/1
@@ -70,7 +72,7 @@ class StockQuotesController < ApplicationController
   end
 
   def get_security
-    @security = Security.find(params[:id])
+    @security = Security.find(params[:security_id])
   end
 
   private

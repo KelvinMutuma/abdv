@@ -7,6 +7,13 @@ class ShareIndicesController < ApplicationController
     @share_indices = ShareIndex.all
   end
 
+  def update_from_feed 
+    call_rake :update_indices, :feed_url => params[:feed_url]
+    # system "rake update_stock_quotes FEED_URL=#{params[:feed_url]} &"
+    flash[:notice] = "Updating Indices"
+    redirect_to root_url
+  end
+
   # GET /share_indices/1
   # GET /share_indices/1.json
   def show

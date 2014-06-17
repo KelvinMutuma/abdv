@@ -1,3 +1,89 @@
 // Place all the styles related to the changers controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.all{
+    float: right
+  }
+  .green .pointer{
+            border-bottom-color: #39b54a;
+        }
+        .green .box {
+            background-color: #39b54a;
+        }
+        .red .pointer{
+            border-bottom-color: #ed1c24;
+        }
+        .red .box {
+            background-color: #ed1c24;
+        }
+        .red .arrow {
+            -webkit-transform: rotate(180deg);
+        }
+        .arrow {
+            position: relative;
+            width: 100px;
+            height: 150px;
+        }
+        .pointer {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 50px 50px 50px;
+            border-color: transparent;
+        }
+        .box {
+            position: absolute;
+            top: 33.33333%;
+            left: 25%;
+            width: 50%;
+            height: 66.66666%;
+        }
+
+   div.details {
+            width: 200px;
+            height: 200px;
+            padding-top: 25px;
+            position: relative;
+        }
+        div.detail {
+            width: 100%;
+        }
+        div.detail > span{
+            position: absolute;
+        }
+        .red span.prev {
+            top: 0;
+            left: 10px;
+        }
+        .red span.percentage {
+            top: 30%;
+            right: 40%;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .red span.per-points {  
+            top: 40%;  
+            right: 30%;
+        }
+        .red span.total-points {  
+            bottom: 20%;  
+            right: 40%;
+        }
+        .green span.prev {
+            top: 0;
+            left: 10px;
+        }
+        .green span.percentage {
+            top: 30%;
+            right: 40%;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .green span.per-points {  
+            top: 40%;  
+            right: 30%;
+        }
+     .green span.total-points {  
+            bottom: 20%;  
+            right: 40%;
+        }

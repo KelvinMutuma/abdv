@@ -7,6 +7,13 @@ class ChangersController < ApplicationController
     @changers = Changer.all
   end
 
+  def update_from_feed 
+    call_rake :update_changers, :feed_url => params[:feed_url]
+    # system "rake update_stock_quotes FEED_URL=#{params[:feed_url]} &"
+    flash[:notice] = "Updating Biggest Gainers and Losers"
+    redirect_to root_url
+  end
+
   # GET /changers/1
   # GET /changers/1.json
   def show

@@ -7,6 +7,13 @@ class MarketsController < ApplicationController
     @markets = Market.all
   end
 
+  def update_from_feed 
+    call_rake :update_markets, :feed_url => params[:feed_url]
+    # system "rake update_stock_quotes FEED_URL=#{params[:feed_url]} &"
+    flash[:notice] = "Updating Markets"
+    redirect_to root_url
+  end
+
   # GET /markets/1
   # GET /markets/1.json
   def show

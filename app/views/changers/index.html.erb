@@ -1,4 +1,646 @@
 <h1>Listing changers</h1>
+<% now_all = @share_indices.last.all_share_index
+   now_twenty = @share_indices.last.twenty_share_index
+   previous_all = @share_indices[-2].all_share_index
+   previous_twenty = @share_indices[-2].twenty_share_index
+   diff_all = (now_all - previous_all).round(2)
+   diff_twenty = (now_twenty - previous_twenty).round(2)
+   per_twenty = (diff_twenty/now_twenty * 100).round(2)
+   per_all = (diff_all/now_all * 100).round(2)
+   twenty_class = now_twenty >= previous_twenty ? 'green' : 'red'
+   all_class = now_all >= previous_all ? 'green' : 'red'
+%>
+<% 
+    now_cap = @markets.last.market_capitalization 
+    now_equity = @markets.last.equity_turnover
+    prev_cap = @markets[-2].market_capitalization
+    prev_equity = @markets[-2].equity_turnover
+    diff_cap = (now_cap - prev_cap).round(2)
+    diff_equity = (now_equity - prev_equity).round(2)
+    per_cap = (diff_cap/now_cap*100).round(2)
+    per_equity = (diff_equity/now_equity*100).round(2)
+    cap_class = now_cap >= prev_cap ? 'green' : 'red'
+    equity_class = now_equity >= prev_equity ? 'green' : 'red'
+%>
+<div class="mar">
+        <div class="details <%= cap_class %>">
+            <div class="arrow">
+                <div class="pointer"></div>
+                <div class="box"></div>
+            </div>
+            <div class="detail">
+                <span class="prev">prev <%= prev_cap %></span>
+                <span class="percentage"><%= per_cap %>%</span>
+                <span class="per-points"><%= diff_cap %>pts</span>
+                <span class="total-points"><%= now_cap %></span>
+            </div>
+        </div>
+
+        <div class="details <%= equity_class %>">
+            <div class="arrow">
+                <div class="pointer"></div>
+                <div class="box"></div>
+            </div>
+            <div class="detail">
+                <span class="prev">prev <%= prev_equity %></span>
+                <span class="percentage"><%= per_equity %>%</span>
+                <span class="per-points"><%= diff_equity %>pts</span>
+                <span class="total-points"><%= now_equity %></span>
+            </div>
+        </div>
+<div class="twenty">
+
+        <div class="details <%= twenty_class %>">
+            <div class="arrow">
+                <div class="pointer"></div>
+                <div class="box"></div>
+            </div>
+            <div class="detail">
+                <span class="prev">prev <%= previous_twenty %></span>
+                <span class="percentage"><%= per_twenty %>%</span>
+                <span class="per-points"><%= diff_twenty %>pts</span>
+                <span class="total-points"><%= now_twenty%></span>
+            </div>
+        </div>
+
+</div>
+<div class="all">
+
+        <div class="details <%= all_class %>">
+            <div class="arrow">
+                <div class="pointer"></div>
+                <div class="box"></div>
+            </div>
+            <div class="detail">
+                <span class="prev">prev <%= previous_all %></span>
+                <span class="percentage"><%= per_all %>%</span>
+                <span class="per-points"><%= diff_all %>pts</span>
+                <span class="total-points"><%= now_all%></span>
+            </div>
+        </div>
+</div>
+
+</div>
+<div id="currency">
+<script type="text/javascript">
+  $(function(){
+    localhost = {}; //global namespace variable
+  localhost.currencyHTML = ""; //currency HTML built here
+  localhost.dollarcurrencyValue = []; //array of percentage changes
+  localhost.poundcurrencyValue = [];
+  localhost.currency = []; //array of currency names
+  localhost.chart1 = {yAxisMin : null, yAxisMax : null};//obj holds things belonging to chart1
+
+   var url = '/forexes.json'
+
+  $.ajax({
+    url: url,
+    cache: false,
+    dataType: 'json', //will set cache to false by default
+    context: localhost,
+    complete: function(data){
+
+
+       var a=JSON.parse(data.responseText);
+
+       var fore = a.map(function (data){
+        return data.forex
+       });
+
+
+       var pound = fore.filter(function(data){
+         return data.currency == "STG POUND"; 
+       })
+       .map(function (data) {
+        return {
+            currencyDate: data.published_at,
+            currencyValue: data.mean
+        }
+       });
+       this.poundcurrencyDate = _.pluck(pound, 'currencyDate');
+       this.poundcurrencyValue = _.pluck(pound, 'currencyValue');
+
+       var dollar = fore.filter(function(data){
+         return data.currency == "US DOLLAR"; 
+       })
+       .map(function (data) {
+        return {
+            currDate: data.published_at,
+            currValue: data.mean
+        }
+       });
+
+       this.dollarcurrencyDate = _.pluck(dollar, 'currDate');
+       this.dollarcurrencyValue = _.pluck(dollar, 'currValue');
+
+
+       this.chart1.yAxisMax = (function(array){
+        //get the largest number in currency array
+
+        var number_array = [];
+        //John Resigs
+
+        for(var i=0; i < array.length; i++){
+          if(array[i] != null){
+            number_array.push(array[i]);
+          }
+        };
+        return Math.max.apply(Math, number_array);
+      })(this.dollarcurrencyValue);
+
+      this.chart1.xAxisMin = (function(array){
+        var number_array = [];
+
+        for(var i=0; i<array.length; i++){
+          if(array[i] != null){
+            number_array.push(array[i]);
+          }
+        };
+        return Math.min.apply(Math, number_array);
+      })(this.dollarcurrencyValue);
+
+        var points = [],
+            mv = this.poundcurrencyDate;
+        $.each(this.poundcurrencyValue, function(i ,e) {
+            points[i] = [Date.parse(mv[i]),e];
+        });
+        this.chart1.data.series[0].data = points;
+
+        var point = [],
+            m = this.dollarcurrencyDate;
+        $.each(this.dollarcurrencyValue, function(i ,e) {
+            point[i] = [Date.parse(m[i]),e];
+        });
+        this.chart1.data.series[1].data = point;
+
+        console.log(this.chart1.data);
+
+      $('#currencyInfo').html(this.currencyHTML);
+
+      chart = new Highcharts.StockChart(this.chart1.data);
+
+    }
+  });
+
+      localhost.chart1.data = {
+        chart: {
+        renderTo: 'currency'
+      },
+      title: {
+        text: 'Sterling Pound'
+              },
+      subtitle: {
+        text: 'Time data since 2003'
+      },      
+      xAxis: {
+        type: 'datetime',
+  
+        title: {
+              text: 'Date'
+        }
+      },
+
+      legend: {
+        enabled: true,
+        align: 'right',
+        backgroundColor: '#FCFFC5',
+        borderColor: 'black',
+        borderWidth: 2,
+        layout: 'vertical',
+        y: 100, 
+        shadow: true
+      },
+      rangeSelector: {
+        selected: 1
+      },            
+      tooltip: {
+        headerFormat: '<b>Currency Values</b><br>',
+        pointFormat: 'Date {point.x:%e. %b}: Kshs {point.y:.2f} '
+      },
+      series: [{
+        name: 'pound',
+        data: null
+      }, {
+        name: 'dollar',
+        data: null
+      }]
+    };
+}); 
+</script>
+</div>
+
+<div id="bank", style="width: 500px, height:320px">
+  <script type="text/javascript">
+
+$(document).ready(function(){
+  localhost = {}; //global namespace variable
+  localhost.bankHTML = ""; //currency HTML built here
+  localhost.bankValue = []; //array of percentage changes
+  localhost.bankDate = []; //array of currency names
+  localhost.chart1 = {yAxisMin : null, yAxisMax : null};//obj holds things belonging to chart1
+
+
+
+   var url = '/banks.json'
+
+  $.ajax({
+    url: url,
+    cache: false,
+    dataType: 'json', //will set cache to false by default
+    context: localhost,
+    complete: function(data){
+
+       var a=JSON.parse(data.responseText);
+
+       var data_mapped = a.map(function (data){
+        return data.bank
+       })
+       .map(function (data) {
+        return {
+            bankDate: data.day,
+            bankValue: data.war
+        }
+       });
+
+       this.bankDate = _.pluck(data_mapped, 'bankDate');
+       this.bankValue = _.pluck(data_mapped, 'bankValue');
+
+       this.chart1.yAxisMax = (function(array){
+        //get the largest number in currency array
+
+        var number_array = [];
+        //John Resigs
+
+        for(var i=0; i < array.length; i++){
+          if(array[i] != null){
+            number_array.push(array[i]);
+          }
+        };
+        return Math.max.apply(Math, number_array);
+      })(this.bankValue);
+
+      this.chart1.xAxisMin = (function(array){
+        var number_array = [];
+
+        for(var i=0; i<array.length; i++){
+          if(array[i] != null){
+            number_array.push(array[i]);
+          }
+        };
+        return Math.min.apply(Math, number_array);
+      })(this.bankValue);
+
+        var points = [],
+            mv = this.bankDate;
+        $.each(this.bankValue, function(i ,e) {
+            points[i] = [Date.parse(mv[i]),e];
+
+        });
+        this.chart1.data.series[0].data = points;
+
+      chart = new Highcharts.StockChart(this.chart1.data);
+
+    }
+  });
+
+
+  localhost.chart1.data = { //js single-threaded, this obj created before callback function completed
+            chart: {
+              renderTo: 'bank',
+              // type: 'line',
+            },
+            title: {
+                        text: 'Interbank rate'
+                    },
+            subtitle: {
+                text: 'Time data '
+            },
+            xAxis: {
+                type: 'datetime',
+                
+                title: {
+                    text: 'Date'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Value (Kshs)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<b>{series.name}</b><br>',
+                pointFormat: 'Date {point.x:%e. %b}: Kshs {point.y:.2f} '
+            },
+            series: [{
+            name: 'Value',
+            data: null
+          }]
+    };
+}); 
+  </script>
+</div>
+
+
+
+
+<div id="mover", style="width: 220px, height:320px">
+  <script type="text/javascript">
+
+$(document).ready(function(){
+  localhost = {}; //global namespace variable
+  localhost.moverHTML = ""; //mover HTML built here
+  localhost.moverValue = []; //array of percentage changes
+  localhost.mover = []; //array of mover names
+  localhost.chart1 = {yAxisMin : null, yAxisMax : null};//obj holds things belonging to chart1
+
+   var url = '/movers.json'
+
+  $.ajax({
+    url: url,
+    cache: false,
+    dataType: 'jsonp', //will set cache to false by default
+    context: localhost,
+    complete: function(data){
+
+       var a=JSON.parse(data.responseText);
+
+       var data_mapped = a.map(function (data){
+        return data.mover
+       })
+       .map(function (data) {
+        return {
+          mover: data.mover,
+          volume: data.volume
+        }
+       });
+
+       this.mover = _.pluck(data_mapped, 'mover');
+       this.moverValue = _.pluck(data_mapped, 'volume');
+       this.chart1.yAxisMax = (function(array){
+        //get the largest number in mover array
+
+        var number_array = [];
+        //John Resigs
+
+        for(var i=0; i < array.length; i++){
+          if(array[i] != null){
+            number_array.push(array[i]);
+          }
+        };
+        return Math.max.apply(Math, number_array);
+      })(this.moverValue);
+
+      this.chart1.xAxisMin = (function(array){
+        var number_array = [];
+
+        for(var i=0; i<array.length; i++){
+          if(array[i] != null){
+            number_array.push(array[i]);
+          }
+        };
+        return Math.min.apply(Math, number_array);
+      })(this.moverValue);
+
+        var points = [],
+            mv = this.mover;
+        $.each(this.moverValue, function(i ,e) {
+            points[i] = [mv[i],e];
+        });
+        this.chart1.data.series[0].data = points;
+
+
+      $('#currencyInfo').html(this.moverHTML);
+
+      chart = new Highcharts.Chart(this.chart1.data);
+
+    }
+  });
+
+
+  localhost.chart1.data = { //js single-threaded, this obj created before callback function completed
+    chart: {
+      renderTo: 'mover',
+      type: 'pie',
+      options3d: {
+            enabled: true,
+            alpha: 45,
+            beta: 0
+          }
+    },
+    title: {
+      text: "Daily Movers"
+    },
+    subtitle: {
+      text: "Source: nse.co.ke"
+    },
+    xAxis: {
+      categories: null, //will be assigned array value during ajax callback
+      title: {
+        text: null
+      }
+    },
+    yAxis: {
+      min: localhost.chart1.yAxisMin,
+      max: localhost.chart1.yAxisMax,
+
+      title: {
+        text: 'Daily Percentage Change',
+        align: 'high'
+      },
+      labels: {
+        overflow: 'justify'
+      }
+    },
+    tooltip: {
+      formatter: function(){
+        return ''+
+            this.series.name + ': '+this.y;
+      }
+    },
+    plotOptions: {
+      pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                depth: 35,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}'
+                }
+            }
+    },
+    legend: {
+      layout: 'vertical',
+      align: 'right',
+      verticalAlign: 'top',
+      x: -1,
+      y: 1,
+      floating: true,
+      borderWidth: 1,
+      backgroundColor: '#FFFFFF',
+      shadow: true
+    },
+    credits: {
+      enabled: false
+    },
+    series: [{
+      name: 'Shares',
+      data: null
+    }]
+    };
+});
+     
+  </script>
+</div>
+<div id="qu", style="width: 220px, height:320px">
+  <script type="text/javascript">
+
+$(document).ready(function(){
+  localhost = {}; //global namespace variable
+  localhost.changerHTML = ""; //changer HTML built here
+  localhost.changerValue = []; //array of percentage changes
+  localhost.changerPrice = [];
+  localhost.changer = []; //array of changer names
+  localhost.chart1 = {yAxisMin : null, yAxisMax : null};//obj holds things belonging to chart1
+
+
+  var url = "/changers.json";
+  
+
+    $.ajax({
+    url: url,
+    cache: false,
+    dataType: 'jsonp', //will set cache to false by default
+    context: localhost,
+    complete: function(data){
+        var a=JSON.parse(data.responseText);
+        // console.log(a);
+       
+       var data_mapped = a.map(function (data){
+        return data.changer
+       })
+       .map(function (data) {
+        return {
+          security: data.security,
+          percentage_change: data.percentage_change,
+          price:  data.price
+        }
+       });
+
+       this.changer = _.pluck(data_mapped, 'security');
+       //this.changerValue = _.pluck(data_mapped, 'percentage_change');
+       //this.changerPrice = _.pluck(data_mapped, 'price');
+
+       this.changerValue = data_mapped.map(function (data){
+        return {y: data.percentage_change, price: data.price}
+       });
+
+
+      this.chart1.yAxisMax = (function(array){
+        //get the largest number in changer array
+
+        var number_array = [];
+        //John Resigs
+
+        for(var i=0; i < array.length; i++){
+          if(array[i] != null){
+            number_array.push(array[i]);
+          }
+        };
+        return Math.max.apply(Math, number_array);
+      })(this.changerValue);
+
+      this.chart1.xAxisMin = (function(array){
+        var number_array = [];
+
+        for(var i=0; i<array.length; i++){
+          if(array[i] != null){
+            number_array.push(array[i]);
+          }
+        };
+        return Math.min.apply(Math, number_array);
+      })(this.changerValue);
+
+      this.chart1.data.series[0].data =  this.changerValue;
+
+      console.log(this.chart1.data.series[0].price);
+
+      this.chart1.data.xAxis.categories = this.changer;
+
+      $('#currencyInfo').html(this.changerHTML);
+
+      chart = new Highcharts.Chart(this.chart1.data);
+     }
+  });
+
+
+
+
+ localhost.chart1.data = { //js single-threaded, this obj created before callback function completed
+    chart: {
+      renderTo: 'qu',
+      type: 'bar'
+    },
+    title: {
+      text: "Biggest Losers and Gainers"
+    },
+    subtitle: {
+      text: "Source: nse.co.ke"
+    },
+    xAxis: {
+      categories: null, //will be assigned array value during ajax callback
+      title: {
+        text: null
+      }
+    },
+    yAxis: {
+      min: localhost.chart1.yAxisMin,
+      max: localhost.chart1.yAxisMax,
+
+      title: {
+        text: 'Share price',
+        align: 'high'
+      },
+      labels: {
+        overflow: 'justify'
+      }
+    },
+    tooltip: {
+      formatter: function(){
+        return ''+
+            this.series.name + ': Kshs '+this.point.price;
+      }
+    },
+    plotOptions: {
+      bar: {
+        dataLabels: {
+          enabled: true
+        }
+      }
+    },
+    legend: {
+      layout: 'vertical',
+      align: 'right',
+      verticalAlign: 'top',
+      x: -1,
+      y: 1,
+      floating: true,
+      borderWidth: 1,
+      backgroundColor: '#FFFFFF',
+      shadow: true
+    },
+    credits: {
+      enabled: false
+    },
+    series: [{
+      name: 'Price Change',
+      data: null,
+      price: null
+    }]
+    };
+});
+     
+  </script>
+</div>
 
 <table>
   <thead>
@@ -13,12 +655,12 @@
   <tbody>
     <% @changers.each do |changer| %>
       <tr>
-        <td><%= changer.security %></td>
-        <td><%= changer.price %></td>
-        <td><%= changer.percentage_change %></td>
-        <td><%= link_to 'Show', changer %></td>
-        <td><%= link_to 'Edit', edit_changer_path(changer) %></td>
-        <td><%= link_to 'Destroy', changer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><% changer.security %></td>
+        <td><% changer.price %></td>
+        <td><% changer.percentage_change %></td>
+        <td><% link_to 'Show', changer %></td>
+        <td><% link_to 'Edit', edit_changer_path(changer) %></td>
+        <td><% link_to 'Destroy', changer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +668,4 @@
 
 <br>
 
-<%= link_to 'New Changer', new_changer_path %>
+<% link_to 'New Changer', new_changer_path %>

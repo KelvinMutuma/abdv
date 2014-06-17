@@ -7,6 +7,13 @@ class MoversController < ApplicationController
     @movers = Mover.all
   end
 
+  def update_from_feed 
+    call_rake :update_movers, :feed_url => params[:feed_url]
+    # system "rake update_stock_quotes FEED_URL=#{params[:feed_url]} &"
+    flash[:notice] = "Updating quotes"
+    redirect_to root_url
+  end
+
   # GET /movers/1
   # GET /movers/1.json
   def show

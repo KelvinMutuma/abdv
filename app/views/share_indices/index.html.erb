@@ -23,5 +23,10 @@
 </table>
 
 <br>
+<%= form_tag update_from_feed_share_indices_path do %>
+  <%= label_tag(:feed_url, "Feed Url") %>
+  <%= text_field_tag(:feed_url) %>
+  <%= submit_tag("Submit") %>
+<% end %>
 
 <%= link_to 'New Share index', new_share_index_path %>

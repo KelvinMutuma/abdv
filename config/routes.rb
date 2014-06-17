@@ -24,9 +24,8 @@ Rails.application.routes.draw do
   end
 
   resources :securities do
-    resources :stock_quotes do
-      collection { post :update_from_feed }
-    end
+    resources :stock_quotes
+    collection { post :update_from_feed }
   end
 
   root :to => "securities#index"

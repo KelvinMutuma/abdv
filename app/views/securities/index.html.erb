@@ -26,14 +26,19 @@
         <td><%= security.stock_quotes.last.percentage_change%></td>
         <td><%= security.stock_quotes.last.high %>
         <td><%= security.stock_quotes.last.low %>
-        <td><%= link_to 'Show', security %></td>
-        <td><%= link_to 'Edit', edit_security_path(security) %></td>
-        <td><%= link_to 'Destroy', security, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><% link_to 'Show', security %></td>
+        <td><% link_to 'Edit', edit_security_path(security) %></td>
+        <td><% link_to 'Destroy', security, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
+<%= form_tag update_from_feed_securities_path do %>
+  <%= label_tag(:feed_url, "Feed Url") %>
+  <%= text_field_tag(:feed_url) %>
+  <%= submit_tag("Submit") %>
+<% end %>
 
 <%= link_to 'New Security', new_security_path %>

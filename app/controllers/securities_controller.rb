@@ -7,6 +7,13 @@ class SecuritiesController < ApplicationController
     @securities = Security.includes(:stock_quotes).all
   end
 
+  def update_from_feed 
+    call_rake :update_stock_quotes, :feed_url => params[:feed_url]
+    # system "rake update_stock_quotes FEED_URL=#{params[:feed_url]} &"
+    flash[:notice] = "Updating Movers"
+    redirect_to root_url
+  end  
+
   # GET /securities/1
   # GET /securities/1.json
   def show
